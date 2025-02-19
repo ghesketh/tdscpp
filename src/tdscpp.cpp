@@ -29,7 +29,10 @@
 #include <map>
 #include <charconv>
 #include <sys/types.h>
+
+#ifndef TDCSPP_WITHOUT_JSON
 #include <nlohmann/json.hpp>
+#endif // TDCSPP_WITHOUT_JSON
 
 #ifndef _WIN32
 #include <sys/socket.h>
@@ -4708,6 +4711,7 @@ WHERE columns.object_id = OBJECT_ID(?))"), fullname.empty() ? table : fullname);
         // defined so that unique_ptr destructor gets called
     }
 
+#ifndef TDCSPP_WITHOUT_JSON      
     void TDSCPP to_json(nlohmann::json& j, const value& v) {
         auto type2 = v.type;
         auto val = span(v.val);
@@ -4756,7 +4760,8 @@ WHERE columns.object_id = OBJECT_ID(?))"), fullname.empty() ? table : fullname);
                 j = nlohmann::json((string)v);
         }
     }
-
+#endif // TDCSPP_WITHOUT_JSON
+      
     uint16_t tds::spid() const {
         return impl->spid;
     }
