@@ -29,7 +29,10 @@
 #include <array>
 #include <time.h>
 #include <string.h>
+
+#ifndef TDCSPP_WITHOUT_JSON
 #include <nlohmann/json_fwd.hpp>
+#endif // TDCSPP_WITHOUT_JSON
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -1918,11 +1921,13 @@ namespace tds {
         bool committed = false;
     };
 
+#ifndef TDCSPP_WITHOUT_JSON
     void TDSCPP to_json(nlohmann::json& j, const value& v);
 
     static void __inline to_json(nlohmann::json& j, const column& c) {
         to_json(j, static_cast<const value&>(c));
     }
+#endif // TDCSPP_WITHOUT_JSON
 
     static std::string __inline escape(std::string_view sv) {
         std::string s{"["};
